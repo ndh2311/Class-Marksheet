@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<style>
+th,td {
+  text-align: center;
+}
+#outputtable {
+  margin: 0 auto;
+  width: 90%;
+}
+.hsg {
+ color: red;
+}
+.hsk {
+  color: blue;
+}
+#inputtable {
+  margin: 0 auto;
+}
+</style>
+</head>
+<body>
+<h1 class="text-center text-info">Class Marksheet</h1>
+<br>
+<!--Input table-->
+<table id="inputtable" class="table-bordered">
+<tr>
+  <th class="alert alert-secondary text-muted">
+    Họ tên
+  </th>
+  <td width="200"><input type="text" id="ten" required></td>
+</tr>
+<tr>
+  <th class="alert alert-secondary text-muted">
+    Điểm toán
+  </th>
+  <td width="200"><input type="text" id="toan" required></td>
+</tr>
+<tr>
+  <th class="alert alert-secondary text-muted">
+    Điểm lý
+  </th>
+  <td width="200"><input type="text" id="ly" required></td>
+</tr>
+<tr>
+  <th class="alert alert-secondary text-muted">
+    Điểm hóa
+  </th>
+  <td width="200"><input type="text" id="hoa" required></td>
+</tr>
+<table>
+<br>
+<!--Input button-->
+<div class="text-center">
+  <button class="nhap btn btn-success" style="font-size:17">Nhập</button>
+</div>
+<br>
+<!--Output table-->
+  <table id="outputtable" class='table table-responsive-sm table-striped table-bordered' style="width:100%">
+    <thead class="thead-light">
+      <tr>
+        <th class='text-muted'>STT</th> <th class='text-muted'>Họ tên</th> <th class='text-muted'>Toán</th> <th class='text-muted'>Lý</th> <th class='text-muted'>Hoá</th> <th class='text-muted'>Trung bình</th>
+      </tr>
+    </thead>
+<tbody>
+  </tbody>
+</table>
+</div>
+<br>
+<div class="text-center">
+<button style="font-size:17" id="tinhdtb" class="btn btn-success">Tính điểm trung bình</button>
+<button style="font-size:17" id="hsg" class="btn btn-success">Xác định học sinh giỏi</button>
+<button style="font-size:17" id="hsk" class="btn btn-success">Xác định học sinh khá</button>
+</div>
+<!-- javascript -->
+<script type='text/javascript'>
+//Add table row
+$(document).ready(function(){
+ $(".nhap").on('click', () => {
+  var stt = 1;
+  var _ten = $("#ten").val();
+ 	var _toan = $("#toan").val();
+ 	var _ly = $("#ly").val();
+ 	var _hoa = $("#hoa").val();
+ $("#outputtable").find("tbody:last").append("<tr><td>"+ stt +"</td><td class='ten'>"+_ten+"</td><td class='toan'>"+_toan+"</td><td class='ly'>"+_ly+"</td><td class='hoa'>"+_hoa+"</td><td class='dtb'>?</td></tr>");
+ stt++;
+ $('input:text').val('');
+});
+});
+//Calculate average
+ $(document).ready(function(){
+	$("#tinhdtb").on('click', () => {
+	$('#outputtable > tbody > tr').each(function () {
+    var tr = $(this);
+      var toan = +tr.find('.toan').text();
+      var ly = +tr.find('.ly').text();
+      var hoa = +tr.find('.hoa').text();
+      var dtb = (toan + ly + hoa) / 3;
+      tr.find('.dtb').html(dtb.toFixed(1));  });
+});
+});
+//Excellent students
+ $(document).ready(function(){
+	$("#hsg").on('click', () => {
+    $('#outputtable > tbody > tr').find('.dtb').filter(function(){
+    return $(this).html() >= 8;
+}).addClass("hsg");
+});
+});
+//Good students
+ $(document).ready(function(){
+	$("#hsk").on('click', () => {
+    $('#outputtable > tbody > tr').find('.dtb').filter(function(){
+    return $(this).html() <8 && $(this).html() >= 7;
+}).addClass("hsk");
+});
+});
+</script>
+</body>
+</html>
